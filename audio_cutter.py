@@ -5,10 +5,6 @@ from typing import List, Dict, Optional, Tuple, Callable
 from faster_whisper import WhisperModel
 from pydub import AudioSegment
 from rapidfuzz import fuzz
-import static_ffmpeg
-
-# Configure static-ffmpeg
-static_ffmpeg.add_paths()
 
 # Configure logging
 logging.basicConfig(

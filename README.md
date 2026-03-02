@@ -1,76 +1,50 @@
-# ✂️ Iris Audio Cutter | 智能音频切片工具
+# Iris Audio Cutter - 批量版
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://你的应用链接.streamlit.app)
+Iris Audio Cutter 是一款强大的音频剪辑工具，能够根据文本内容在音频中查找并自动剪辑相应片段。
 
-这是一个基于 **OpenAI Whisper** 和 **Streamlit** 构建的智能音频处理工具。它能自动识别音频中的语音内容，允许用户通过搜索关键词或查看转录文本，精准定位并“一键剪切”出想要的音频片段。
+## 功能特点
 
-不再需要反复听录音找时间点，像编辑文档一样编辑音频！
+- **批量处理**：支持一次上传多个音频文件进行批量处理
+- **文本驱动剪辑**：输入想要查找的文本，自动定位并剪辑相应的音频片段
+- **Whisper语音识别**：使用OpenAI Whisper模型进行高精度语音识别和时间戳定位
+- **模糊匹配**：支持模糊文本匹配，即使音频中的语音不够清晰也能准确找到所需片段
+- **灵活配置**：可调整Whisper模型大小、匹配阈值、前后静音填充等参数
 
-## ✨ 主要功能
+## 技术栈
 
-* **🎙️ 智能转录**：利用 OpenAI Whisper 模型（Base）将上传的音频快速转换为文本。
-* **🔍 文本定位**：直接搜索文稿中的关键词（如“老虎”、“Meeting”），自动匹配对应的时间轴。
-* **✂️ 精准剪切**：基于匹配到的时间段，自动调用 FFmpeg 进行无损音频切割。
-* **💾 即时下载**：处理完成后，可直接下载剪切好的 MP3/WAV 片段。
+- **Streamlit**：构建交互式Web界面
+- **Faster-Whisper**：高效的语音识别模型推理
+- **PyDub**：音频处理和剪辑
+- **RapidFuzz**：文本相似度匹配算法
 
-## 🛠️ 技术栈
+## 安装与使用
 
-* **Python 3.11**
-* **[Streamlit](https://streamlit.io/)**: 构建交互式 Web 界面
-* **[OpenAI Whisper](https://github.com/openai/whisper)**: 强大的语音识别模型
-* **[Pydub](https://github.com/jiaaro/pydub)**: 音频处理与操作
-* **FFmpeg**: 底层音频编解码支持
+### 本地运行
 
-## 🚀 在线体验
-
-点击下方链接直接使用（无需安装）：
-👉 **[点击这里打开 Iris Audio Cutter](https://iris-audio-cutter-mh23w6cuwvmens7nxangmj.streamlit.app/)**
-
----
-
-## 💻 本地运行指南
-
-如果你想在自己的电脑上运行或修改代码，请按以下步骤操作：
-
-1. 克隆仓库
+1. 克隆项目
 ```bash
-git clone [https://github.com/fayeiris999-jpg/Iris-Audio-Cutter.git](https://github.com/fayeiris999-jpg/Iris-Audio-Cutter.git)
-cd Iris-Audio-Cutter
+git clone https://github.com/fayeiris999-jpg/Iris-Audio-Cutter.git
+```
 
-2. 安装系统依赖 (FFmpeg) 
-本项目依赖系统级的 FFmpeg 工具，请确保你已安装：
-	•	Mac (使用 Homebrew):
+2. 安装依赖
 ```bash
-
-brew install ffmpeg
-
-	•	Windows: 下载 FFmpeg（https://ffmpeg.org/download.html）并配置环境变量。
-	•	Ubuntu/Linux:
-```bash
-
-sudo apt-get update && sudo apt-get install ffmpeg
-
-3.安装 Python 依赖 
-建议使用虚拟环境（Python 3.11 推荐）：
-```bash
-
 pip install -r requirements.txt
+```
 
-4. 启动应用
+3. 运行应用
 ```bash
-
 streamlit run streamlit_app.py
+```
 
-启动后，浏览器会自动打开 http://localhost:8501 。
-📂 项目结构
-Iris-Audio-Cutter/
-├── streamlit_app.py   # 前端界面主程序
-├── audio_cutter.py    # 音频处理核心逻辑类
-├── requirements.txt   # Python 依赖库列表
-├── packages.txt       # Streamlit Cloud 系统依赖 (ffmpeg)
-└── README.md          # 项目说明文档
+### 配置选项
 
-🤝 贡献与反馈
-欢迎提交 Issue 或 Pull Request！如果你觉得这个工具有用，请给个 ⭐️ Star！
+- **Whisper模型**：tiny, base, small, medium, large-v3（模型越大越准确但速度越慢）
+- **前后填充**：为剪辑的音频片段添加前后静音
+- **匹配阈值**：设置文本匹配的最低相似度分数
 
-Created by Faye Iris
+## 应用场景
+
+- 教育培训：快速提取课程中的重点讲解片段
+- 播客制作：自动剪辑访谈中的精彩回答
+- 会议记录：提取重要决策相关的发言内容
+- 内容创作：快速从长音频中提取可用素材

@@ -1,4 +1,5 @@
 import os
+import shutil
 import logging
 import re
 from typing import List, Dict, Optional, Tuple, Callable
@@ -13,6 +14,33 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 logger = logging.getLogger(__name__)
+
+_FFMPEG_READY = False
+
+def _ensure_ffmpeg_available() -> None:
+    global _FFMPEG_READY
+    if _FFMPEG_READY:
+        return
+
+    try:
+        import static_ffmpeg
+
+        static_ffmpeg.add_paths()
+    except Exception as e:
+        logger.warning(f"static-ffmpeg 初始化失败，将尝试使用系统 ffmpeg: {e}")
+
+    try:
+        ffmpeg_path = shutil.which("ffmpeg")
+        ffprobe_path = shutil.which("ffprobe")
+
+        if ffmpeg_path:
+            AudioSegment.converter = ffmpeg_path
+        if ffprobe_path:
+            AudioSegment.ffprobe = ffprobe_path
+    except Exception as e:
+        logger.warning(f"pydub ffmpeg 路径设置失败: {e}")
+
+    _FFMPEG_READY = True
 
 class AudioTextCutter:
     def __init__(self, model_size: str = "base", device: str = "cpu", compute_type: str = "int8"):
@@ -158,6 +186,7 @@ class AudioTextCutter:
         logger.info(f"Clipping audio from {start_time}s to {end_time}s with {padding}s padding...")
         
         try:
+            _ensure_ffmpeg_available()
             audio = AudioSegment.from_file(audio_path)
             
             # Apply padding (Pydub uses milliseconds)
